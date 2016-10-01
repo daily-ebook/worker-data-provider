@@ -20,6 +20,10 @@ def print_hello(self):
     print("Hello")
     return {'message': 'Done'}
 
+@celery.task(bind=True, name="tasks.get_sources_metadata")
+def get_sources_metadata(self):
+    return {'sources': ded.sources_metadata}
+
 # bind=True to have the self parameter
 @celery.task(bind=True, name="tasks.generate_book_from_recipe")
 def generate_book_from_recipe(self, recipe):
