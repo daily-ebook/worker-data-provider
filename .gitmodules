@@ -1,0 +1,3 @@
+[submodule "ded"]
+	path = ded
+	url = https://github.com/daily-epub/ded
