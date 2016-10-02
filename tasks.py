@@ -28,7 +28,7 @@ def get_sources_metadata(self):
 @celery.task(bind=True, name="tasks.generate_book_from_recipe")
 def generate_book_from_recipe(self, recipe):
     self.update_state(state='PROGRESS', meta={'message': 'Starting book generation'})
-    ded.generate_book_from_recipe(recipe, task=self)
+    ded.generate_book_from_dict(recipe, task=self)
     return {'message': 'Book generation complete'}
 
 
