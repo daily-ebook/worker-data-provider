@@ -1,11 +1,10 @@
-# worker
+# worker-ebook
 
 ## To Do
 
-### Dockerfile
+### Tasks
 
-* Install pandoc
-* Install calibre
+* Take care of submitting a task for shipping out the ebook
 
 ### Celery
 
