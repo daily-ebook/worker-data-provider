@@ -37,4 +37,4 @@ USER worker
 ADD . .
 
 ENTRYPOINT ["celery"]
-CMD ["-A", "tasks", "worker", "-l", "debug"]
+CMD ["-A", "tasks", "worker", "-l", "INFO", "-Q", "dp"]
