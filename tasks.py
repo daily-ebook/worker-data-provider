@@ -32,14 +32,19 @@ def get_sources_metadata(self):
 # bind=True to have the self parameter
 @celery.task(bind=True, name="data_provider.generate_book_from_dict_recipe")
 def generate_book_from_dict_recipe(self, recipe_dict):
-    self.update_state(state='PROGRESS', meta={'message': 'Starting generation'})
+    self.update_state(state='PROGRESS', meta={'type': 'update', 'message': 'Starting...'})
     recipe = Recipe.from_dict(recipe_dict)
-    self.update_state(state='PROGRESS', meta={'message': 'Fetching data'})
+    self.update_state(state='PROGRESS', meta={'type': 'update', 'message': 'Fetching data'})
     recipe.build()
-    self.update_state(state='PROGRESS', meta={'message': 'Rendering to HTML'})
+    self.update_state(state='PROGRESS', meta={'type': 'update', 'message': 'Rendering to HTML'})
     recipe.render()
     recipe_dict = recipe.to_dict()
     render_task = celery.send_task('ebook_generator.render_recipe_to_ebook', args=[recipe_dict], kwargs={})
-    return {'message': 'Deferred execution to {0}'.format(render_task.id), 'task-id': render_task.id}
+    return {
+        'type': 'new-task',
+        'message': 'Deferred execution to task {0}'.format(render_task.id),
+        'task-id': render_task.id,
+        'preview-html': recipe_dict["html"]
+    }
 
 
